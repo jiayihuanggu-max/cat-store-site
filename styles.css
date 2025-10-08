@@ -60,23 +60,3 @@ img{ max-width:100%; height:auto; display:block; border:1px solid var(--border);
 
 /* ID selector example */
 #top{ scroll-behavior:smooth; }
-
-/* Keep the Price column on a single line */
-.table td:nth-child(3){ white-space:nowrap; }
-
-/* Featured Bundles - two-column cards */
-.bundles{ margin-top:24px; }
-.bundles h3{ margin:0 0 12px; font-size:1.25rem; }
-.bundle-grid{
-  display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap:16px;
-}
-.bundle-card{
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  background:var(--bg);
-}
-.bundle-card h4{ margin:0 0 8px; font-size:1.0625rem; }
-.bundle-card ul{ margin:0; padding-left:1.2rem; }
