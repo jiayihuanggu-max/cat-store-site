@@ -1,14 +1,12 @@
-
 :root{
-
-  --fg:#2b2113;         
-  --bg:#fff8e6;          
-  --muted:#8a775a;      
-  --border:#f1e4c7;      
-  --card:#fffdf7;       
-  --accent:#d97706;      
+  --fg:#2b2113;          
+  --bg:#fff8e6;        
+  --muted:#8a775a;     
+  --border:#f1e4c7;  
+  --card:#fffdf7;  
+  --accent:#d97706;
   --accent-2:#b45309;    
-  --pill:#fff1cc;        
+  --pill:#fff1cc;    
 }
 
 *{ box-sizing:border-box; }
@@ -43,8 +41,7 @@ main{ grid-column:2; padding:1.25rem; }
 
 .site-footer{
   margin-top:2rem; padding:1rem; border-top:1px solid var(--border); font-size:.95rem;
-  color:var(--muted); background:#fff6dd; 
-}
+  color:var(--muted); background:#fff6dd;
 
 /* Cards */
 .card{
@@ -55,7 +52,7 @@ main{ grid-column:2; padding:1.25rem; }
 /* Table */
 .table{ width:100%; border-collapse:collapse; background:#fff; }
 .table th,.table td{ padding:.6rem .5rem; border:1px solid var(--border); }
-.table thead th{ background:var(--pill); }           
+.table thead th{ background:var(--pill); }          
 .table tbody tr:nth-child(even){ background:#fffaf0; } 
 
 /* Buttons */
@@ -84,8 +81,8 @@ img{ max-width:100%; height:auto; display:block; border:1px solid var(--border);
 /* ID selector example */
 #top{ scroll-behavior:smooth; }
 
-/* Keep the Price column on a single line*/
-.table td:nth-child(4){ white-space:nowrap; }
+/* Keep the Price column on a single line */
+.table td:nth-child(3){ white-space:nowrap; }
 
 /* Featured Bundles - two-column cards */
 .bundles{ margin-top:24px; }
