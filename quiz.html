@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css?v=warm1" />
+  <title>Xue. — Cat Store</title>
+</head>
+<body id="top">
+  <header class="header">
+    <h1>Quiz — Cat Care Starter</h1>
+  </header>
+
+  <nav aria-label="Primary" class="site-nav">
+    <a href="index.html">Home</a>
+    <a href="products.html">Products</a>
+    <a href="adoption.html">Adoption</a>
+    <a href="care-tips.html">Care Tips</a>
+    <a href="gallery.html">Gallery</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About</a>
+    <a href="quiz.html" aria-current="page">Quiz</a>
+    <a href="references.html">References</a>
+    
+  </nav>
+
+  <div class="main-grid">
+    <main>
+      <section class="card">
+        <p>Answer the questions below and submit to see your score. Passing is <strong>80%</strong> (8/10 points). You can try again with Reset.</p>
+      </section>
+
+      <form id="quizForm" class="card" novalidate>
+        <fieldset class="card">
+          <legend><strong>Q1 (Fill-in):</strong> For <em>one</em> cat, how many litter boxes are recommended?</legend>
+          <p>Tip: rule of thumb is “one per cat + one extra”.</p>
+          <label for="q1">Your answer:</label>
+          <input id="q1" name="q1" type="text" placeholder="Enter a number (e.g., 2)" />
+        </fieldset>
+
+        <fieldset class="card">
+          <legend><strong>Q2 (Single choice):</strong> Which food is appropriate for a <em>kitten</em>?</legend>
+          <label><input type="radio" name="q2" value="kitten"> Kitten formula (growth)</label><br>
+          <label><input type="radio" name="q2" value="adult"> Adult maintenance-only</label><br>
+          <label><input type="radio" name="q2" value="dog"> Dog food (shared)</label>
+        </fieldset>
+
+        <fieldset class="card">
+          <legend><strong>Q3 (Single choice):</strong> How often should you scoop the litter box?</legend>
+          <label><input type="radio" name="q3" value="weekly"> Weekly</label><br>
+          <label><input type="radio" name="q3" value="daily"> Daily</label><br>
+          <label><input type="radio" name="q3" value="monthly"> Monthly</label>
+        </fieldset>
+
+        <fieldset class="card">
+          <legend><strong>Q4 (Single choice):</strong> Best practice for enrichment/play?</legend>
+          <label><input type="radio" name="q4" value="long"> One long 45‑minute session once a week</label><br>
+          <label><input type="radio" name="q4" value="daily"> Short daily sessions; rotate toys</label><br>
+          <label><input type="radio" name="q4" value="none"> Cats don’t need structured play</label>
+        </fieldset>
+
+        <fieldset class="card">
+          <legend><strong>Q5 (Multiple choice):</strong> Select all <em>good practices</em> for first-time owners.</legend>
+          <label><input type="checkbox" name="q5" value="carrier"> Use a comfy carrier with soft bedding for trips</label><br>
+          <label><input type="checkbox" name="q5" value="toys"> Rotate toys to keep novelty</label><br>
+          <label><input type="checkbox" name="q5" value="plants"> Keep toxic plants within reach</label><br>
+          <label><input type="checkbox" name="q5" value="vet"> Annual vet checkups</label>
+          <p class="note">Hint: toxic plants should be kept <em>out</em> of reach.</p>
+        </fieldset>
+
+        <div class="card" style="display:flex; gap:.5rem; flex-wrap:wrap;">
+          <button type="submit" class="btn">Submit</button>
+          <button type="button" id="resetBtn" class="btn outline">Reset</button>
+        </div>
+
+        <section id="results" class="card" aria-live="polite" role="status" style="display:none;"></section>
+      </form>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>This website is a course project for IT 3203. Course homepage:
+      <a href="https://ksuweb.github.io/IT3203/" target="_blank" rel="noopener">https://ksuweb.github.io/IT3203/</a>
+    </p>
+    <p>&copy; 2025 Xue. Cat Store</p>
+  </footer>
+
+  <script>
+  (function(){
+    const form = document.getElementById('quizForm');
+    const results = document.getElementById('results');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const correct = {
+      q1: ['2','two'],
+      q2: 'kitten',
+      q3: 'daily',
+      q4: 'daily',
+      q5: new Set(['carrier','toys','vet'])
+    };
+
+    function grade(e){
+      e.preventDefault();
+      let score = 0;
+      const per = [];
+
+      const a1 = (form.q1.value || '').trim().toLowerCase();
+      const ok1 = correct.q1.includes(a1);
+      if(ok1) score += 2;
+      per.push({ q:'Q1', ok:ok1, your:a1 || '(blank)', ans:'2 (one per cat + one extra)' });
+
+      const a2 = (form.q2.value || '');
+      const ok2 = a2 === correct.q2;
+      if(ok2) score += 2;
+      per.push({ q:'Q2', ok:ok2, your:labelFor('q2', a2), ans:'Kitten formula (growth)' });
+
+      const a3 = (form.q3.value || '');
+      const ok3 = a3 === correct.q3;
+      if(ok3) score += 2;
+      per.push({ q:'Q3', ok:ok3, your:labelFor('q3', a3), ans:'Daily' });
+
+      const a4 = (form.q4.value || '');
+      const ok4 = a4 === correct.q4;
+      if(ok4) score += 2;
+      per.push({ q:'Q4', ok:ok4, your:labelFor('q4', a4), ans:'Short daily sessions; rotate toys' });
+
+      const picked = new Set(Array.from(form.querySelectorAll('input[name="q5"]:checked')).map(x=>x.value));
+      const ok5 = setsEqual(picked, correct.q5);
+      if(ok5) score += 2;
+      per.push({ q:'Q5', ok:ok5, your:prettySet(picked), ans:'Use comfy carrier; rotate toys; annual vet checkups' });
+
+      const total = 10;
+      const pass = score >= 8;
+      let html = `<h2>Result: ${pass ? 'Pass ✅' : 'Not passed ❌'}</h2>`;
+      html += `<p><strong>Score:</strong> ${score}/${total}</p>`;
+      html += '<hr><ol>';
+      for(const item of per){
+        html += `<li><strong>${item.q} — ${item.ok ? 'Correct' : 'Incorrect'}</strong><br>` +
+                `<span class="muted">Your answer:</span> ${escapeHtml(item.your)}<br>` +
+                `<span class="muted">Correct:</span> ${escapeHtml(item.ans)}</li>`;
+      }
+      html += '</ol>';
+      results.innerHTML = html;
+      results.style.display = 'block';
+      results.scrollIntoView({behavior:'smooth', block:'start'});
+    }
+
+    function resetAll(){
+      form.reset();
+      results.style.display = 'none';
+      results.innerHTML = '';
+      window.scrollTo({top:0, behavior:'smooth'});
+    }
+
+    function labelFor(groupName, value){
+      if(!value) return '(blank)';
+      const input = form.querySelector(`input[name="${groupName}"][value="${value}"]`);
+      if(!input) return value;
+      return input.parentElement.textContent.trim();
+    }
+
+    function setsEqual(a, b){
+      if(a.size !== b.size) return false;
+      for(const v of a){ if(!b.has(v)) return false; }
+      return true;
+    }
+
+    function prettySet(s){
+      if(!s || s.size === 0) return '(none)';
+      return Array.from(s).join(', ');
+    }
+
+    function escapeHtml(str){
+      return String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+    }
+
+    form.addEventListener('submit', grade);
+    resetBtn.addEventListener('click', resetAll);
+  })();
+  </script>
+</body>
+</html>
